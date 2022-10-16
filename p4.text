@@ -1,0 +1,32 @@
+#sudo apt-get install isc-dhcp-server
+# sudo nano /etc/default/isc-dhcp-server
+INTERFACESv4= “ens33”
+INTERFACESv6 = “ens33 lo”
+# sudo nano /etc/dhcp/dhcpd.config
+subnet 192.168.3.0 netmask 255.255.255.0
+{
+range 192.168.3.100 192.168.3.200;
+option domain-name-servers ns1.internal.example.org;
+option domain-name "krishn.org";
+option subnet-mask 255.255.255.0;
+option routers 192.168.3.1;
+option broadcast-address 192.168.3.255;
+default-lease-time 600;
+max-lease-time 7200;
+}
+# sudo systemctl restart isc-dhcp-server
+then do network process manually in system
+# sudo systemctl restart NetworkManager.service
+Step 4:- Configure NFS Server
+# sudo apt-get install nfs-kernel-server
+# sudo nano /etc/exports
+Add following settings:
+/home 192.168.3.101(rw, sync, no_root_squash, no_subtree_check)
+Step 4.3– Mount Share on Client Machine
+# sudo apt-get install nfs-common
+#sudo nano /etc/fstab
+Replace nfs-server-ip with the ip address of the first Ubuntu computer.
+Nfs-server-ip: /home/username /mnt/nfs-share nfs rw, soft, intr, noatime, x-gvfs-show
+#sudo mkdir /mnt/nfs-share
+#sudo mount –a
+
