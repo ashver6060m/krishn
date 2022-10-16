@@ -1,1 +1,27 @@
-this is practical 1 and testing
+#sudo Ifconfig ens33 192.168.1.101 netmask 255.255.255.0 up
+Configuration
+# sudo nano /etc/network/interfaces
+auto ens33
+face ens33 inet dhcp
+address 192.168.3.101
+netmask255.255.255.0
+gateway 192.168.3.1
+dns-nameservers 192 168.3.3 192 168.3.4
+Disable IPv6
+#sudo sysclt –w net.ipv6.conf.all.disable_ipv6 = 1
+#sudo sysclt –w net.ipv6.conf.default.disable_ipv6 = 1
+#sudo ip a
+# sudo nano /etc/sysctl.conf
+net.ipv6.conf.all.disable_ipv6 = 1
+net.ipv6.conf.default.disable_ipv6 = 1
+net.ipv6.conf.lo.disable_ipv6 = 1
+# sudo sysclt –p
+Configure services
+ Display the list of services running 
+#systemctl –t service
+ The list of all services 
+# systemctl list-unit-files –t service
+ Stop and turn off auto start setting for services if you don’t need it 
+# systemctl stop servicename’
+# systemctl disable servicename
+
