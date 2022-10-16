@@ -1,5 +1,7 @@
 # sudo apt install openssh-server
 # sudo systemctl status ssh
+if you have error 
+sudo chmod 700 ~/.ssh sudo chmod 600 authorized_keys
 # Sudo nano /etc/ssh/sshd_config
 # sudo systemctl restart ssh
 # sudo apt-get install Openssh-client
