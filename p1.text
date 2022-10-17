@@ -1,6 +1,0 @@
-# python -m pip install vernamcipher
-from vernamcipher.cryptographic import Cryptographic
-plainText = ""
-key = Cryptographic.generate_key()
-cipher = Cryptographic.generate_key()
-print(cipher)
