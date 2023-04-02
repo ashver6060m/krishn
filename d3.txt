@@ -1,0 +1,21 @@
+install.packages("ggplot2")
+scatter<-ggplot(data=iris,aes(x=Sepal.Length,y=Sepal.Width))
+scatetr+geom_point(aes(color=Species, shape=Species))+theme_bw()+xlab("Sepal Length")+ylab("Sepal Width")+ggtitle("Sepal Length-Width")
+ggplot(data=iris,aes(Sepal.Length,fill=Species))+theme_bw()+geom_density(alpha=0.25)+labs(x="Sepal.Length",title="Species vs Sepal Length")
+vol<-ggplot(data=iris,aes(x=Sepal.Length))
+vol+stat_density(aes(ymax=..density..,ymin=..density..,fill=Species,color=Species)),geom="ribbon",position="identity")+face_grid(.~Species)+coord_flip()+theme_bw()+labs(x="Sepal Length",title="Species vs Sepal Length")
+vol<-ggplot(data=iris,aes(x=Sepal.Width))
+vol+stat_density(aes(ymax=..density..,ymin=..density..,fill=Species,color=Species)),geom="ribbon",position="identity")+face_grid(.~Species)+coord_flip()+theme_bw()+labs(x="Sepal Width",title="Species vs Sepal Width")
+vol<-ggplot(data=iris,aes(x=Sepal.width))
+
+Clustering Method kmeans
+irisData<-iris[,1:4]
+totalwSS<-c()
+for (i in 1:15)
+  {
+  clusterIRIS <- kmeans(irisData, centers=i)
+  totalwSS[i] < clusterIRIS$tot.withinss
+  }
+plot(x=1:15, y=totalwSS, type="b", xlab="Number of Clusters, ylab="Within groups sum-of-squares")
+hist(nb$Best.nc[1,],breaks=15,main="Histogram for number of Clusters")
+  

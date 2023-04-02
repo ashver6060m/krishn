@@ -1,0 +1,36 @@
+lsfit(iris$Petal.Length,iris$Petal.Width)$coefficients
+plot(iris$Petal.Length,iris$Petal.Width,pch=21,bg=c(&quot;red&quot;,&quot;green&quot;,&quot;blue&quot;)[unclass(iris$Species)],mai
+n = &quot;iris Data&quot;,xlab = &quot;Petal Length&quot;,ylab = &quot; Petal Width&quot;)
+abline(lsfit(iris$Petal.Length,iris$Petal.Width)$coefficients,col=&quot;black&quot;)
+
+#create simple regression model
+lm(Petal.Length~Petal.Width,data = iris)$coefficients
+plot(iris$Petal.Width,iris$Petal.Length,pch=21,bg=c(&quot;red&quot;,&quot;green&quot;,&quot;blue&quot;)[unclass(iris$Species)],mai
+n = &quot;iris Data&quot;,xlab = &quot;Petal Length&quot;,ylab = &quot; Petal Width&quot;)
+abline(lm(Petal.Length~Petal.Width,data = iris)$coefficients,col=&quot;black&quot;)
+summary(lm(Petal.Length~Petal.Width,data=iris))
+
+plot(iris$Sepal.Width,iris$Sepal.Length,pch=21,bg=c(&quot;red&quot;,&quot;green&quot;,&quot;blue&quot;)[unclass(iris$Species)],mai
+n=&quot;Iris Data&quot;,xlab=&quot;Sepal Width&quot;,ylab=&quot;Sepal Length&quot;)
+abline(lm(Sepal.Length~Sepal.Width,data = iris)$coefficients,col=&quot;black&quot;)
+summary(lm(Sepal.Length~Sepal.Width,data=iris))
+
+#What happens if we divide the data up to species and run three separate linear regressions?
+plot(iris$Sepal.Width,iris$Sepal.Length,pch=21,bg=c(&quot;red&quot;,&quot;green&quot;,&quot;blue&quot;)[unclass(iris$Species)],mai
+n=&quot;Iris Data&quot;,xlab=&quot;Sepal Width&quot;,ylab=&quot;Sepal Length&quot;)
+abline(lm(Sepal.Length~Sepal.Width,data = iris)$coefficients,col=&quot;black&quot;)
+abline(lm(Sepal.Length~Sepal.Width,data =
+iris[which(iris$Species==&quot;setosa&quot;),])$coefficients,col=&quot;red&quot;)
+abline(lm(Sepal.Length~Sepal.Width,data =
+iris[which(iris$Species==&quot;versicolor&quot;),])$coefficients,col=&quot;green&quot;)
+abline(lm(Sepal.Length~Sepal.Width,data =
+iris[which(iris$Species==&quot;virginica&quot;),])$coefficients,col=&quot;blue&quot;)
+lm(Sepal.Length~Sepal.Width,data = iris[which(iris$Species==&quot;setosa&quot;),])$coefficients
+lm(Sepal.Length~Sepal.Width,data = iris[which(iris$Species==&quot;versicolor&quot;),])$coefficients
+lm(Sepal.Length~Sepal.Width,data = iris[which(iris$Species==&quot;virginica&quot;),])$coefficients
+lm(Sepal.Length~Sepal.Width:Species+Species-1, data=iris)$coefficients
+summary(lm(Sepal.Length~Sepal.Width:Species + Species-1, data = iris))
+
+summary(step(lm(Sepal.Length~Sepal.Width*Species, data=iris)))
+lm(Sepal.Length~Sepal.Width:Species+Species-1,data=iris)$coefficients
+lm(Sepal.Length~Sepal.Width:Species+Species,data=iris)$coefficients

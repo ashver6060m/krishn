@@ -1,0 +1,26 @@
+install.packages("sofa")
+library("sofa")
+x<-Cushion$new(user="root",pwd="root")
+x$ping()
+db_create(x,dbname='ds')
+doc1<-'{"rollno":"19","name":"Deeraj","Grade":"A"}'
+doc_create(x,doc1,dbname='ds')
+doc2<-'{"rollno":"2","name":"Zain","Grade":"A"}'
+doc_create(x,doc2,dbname='ds')
+doc3<-'{"rollno":"3","name":"Ashver","Grade":"A","Remark":"Pass"}'
+doc_create(x,doc3,dbname='ds')
+db_changes(x,"ds")
+db_query(x,dbname="ds",selector=list('_id'=list('$gt'=NULL)))$docs
+db_query(x, dbname="ds",selector=list(Grade="A"))$docs
+db_query(x, dbname="ds",selector=list(Grade="Pass"))$docs
+db_query(x, dbname="ds",selector=list(rollno=list('$gt'='2')),fields=c("name","Grade"))$docs
+library("jsonlite")
+res<-db_query(x,dbname="ds",selector=list('_id'=list('$gt'=NULL)),fields=c("rollno","Grade","Remark"),as="json")
+fromJSON(res)$docs
+doc_delete(x,dbname="ds",docid="")
+doc_get(x,dbname="ds",docid="")
+doc2<-'{"name":"Sfoods","biryani":"TEST","note":"yummy","note2":"yay"}'
+doc_update(x, dbname='ds',doc=doc2,docid="",rev="")
+doc3<-'{"rollno":"01","name":"Om","Grade":"A+"}'
+doc_update{x,dbname="ds",doc=doc3,docid="",rev=""}
+

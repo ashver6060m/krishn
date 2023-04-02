@@ -1,0 +1,33 @@
+show dbs
+use beginnersbook
+show dbs
+db.user.insert({name:"Deeraj",age:30})
+show dbs
+db.beginnersbook.insert({
+name:"Ankit",
+age:20,
+website:"begineersbook.com"})
+
+db.beginnersbook.insert({name:"Yash",age:20,website:"begineersbook.com", address:"Vasai"})
+db.beginnersbook.find()
+
+db.createCollection("students11")
+show collections
+db.students11.drop()
+show collections
+
+db.beginnersbook.insert({name:"Ashver",age:19,email:"admin@gmail.com", 
+course:[{name:"MongoDB",duration:7},{name:"Java",duration:30}]
+})
+db.beginnersbook.find()
+db.beginnersbook.find().forEach(printjson)
+db.beginnersbook.find().pretty()
+db.beginnersbook.find({name:"Ashver"}).pretty()
+db.beginnersbook.find({"age":{$gt:18}}).pretty()
+db.beginnersbook.find({"age":{$lt:18}}).pretty()
+db.beginnersbook.find({"age":{$gte:18}}).pretty()
+db.beginnersbook.find({"age":{$lte:18}}).pretty()
+db.beginnersbook.update({"name":"Deeraj"},{$set:{"name":"Danish"}})
+db.beginnersbook.find().pretty()
+db.dropDatabase()
+show collections
