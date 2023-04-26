@@ -1,0 +1,5 @@
+// Negative image 
+a=uigetfile('.','masha.jpeg');
+a=imread(a);
+new=255-a;
+imshow(new);
