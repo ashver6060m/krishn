@@ -1,0 +1,5 @@
+// DFT of 4x4 grey scale image.
+clc;
+f = [1,1,1,1;1,1,1,1;1,1,1,1];
+b = fft2(f);
+disp(b);
