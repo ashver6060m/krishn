@@ -1,0 +1,17 @@
+// Gray level slicing without background 
+a=uigetfile('.','Select a image');
+a=imread(a);
+a1=58;
+b1=158;
+[r,c]=size(a);
+for i=1:r
+ for j=1:c
+ if(a(i,j)>a1 & a(i,j)<b1)
+ x(i,j)=255;
+ else
+ x(i,j)=0;
+ end
+ end
+end
+x=uint8(x);
+imshow(x);
