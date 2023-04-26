@@ -1,0 +1,24 @@
+// Image contrast 
+a=uigetfile('.','masha.jpeg');
+a=imread(a);
+a1=min(min(a));
+b=max(max(a));
+l=0.5;
+n=0.5;
+m=3;
+v=l*a1;
+w=v+(m*(b-a1));
+[r,c]=size(a);
+for i=1:r
+ for j=1:c
+ if(a(i,j)<a1)
+ new(i,j)=l*a(i,j);
+ elseif(a(i,j)>=a1&a(i,j)<b)
+ new(i,j)=(m*(a(i,j)-a1))+v;
+ else
+ new(i,j)=(n*(a(i,j)-b))+w;
+ end
+ end
+end
+new=double(new);
+imshow(new);
