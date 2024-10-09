@@ -1,0 +1,22 @@
+import numpy as np
+import pandas as pd
+
+# Generate sample data
+data = pd.DataFrame({
+    'x1': np.random.rand(100),
+    'x2': np.random.rand(100),
+    'y': np.random.randint(0, 2, 100)
+})
+
+X_train = data[['x1', 'x2']].values
+y_train = data['y'].values
+
+def knn_predict(X_train, y_train, x_new, k=3):
+    distances = np.linalg.norm(X_train - x_new, axis=1)
+    k_indices = np.argsort(distances)[:k]
+    k_labels = y_train[k_indices]
+    return np.bincount(k_labels).argmax()
+
+# Test on a new point
+x_new = np.array([0.5, 0.5])
+print(f"Predicted class: {knn_predict(X_train, y_train, x_new)}")
