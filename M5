@@ -1,0 +1,28 @@
+import numpy as np
+import pandas as pd
+
+# Generate sample data
+data = pd.DataFrame({
+    'x1': np.random.rand(100),
+    'x2': np.random.rand(100)
+})
+
+k = 3
+centroids = data.sample(n=k).values
+X = data.values
+
+def assign_clusters(X, centroids):
+    distances = np.linalg.norm(X[:, np.newaxis] - centroids, axis=2)
+    return np.argmin(distances, axis=1)
+
+def update_centroids(X, labels, k):
+    return np.array([X[labels == i].mean(axis=0) for i in range(k)])
+
+for _ in range(100):
+    labels = assign_clusters(X, centroids)
+    new_centroids = update_centroids(X, labels, k)
+    if np.all(centroids == new_centroids):
+        break
+    centroids = new_centroids
+
+print(f"Centroids: {centroids}")
