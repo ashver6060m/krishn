@@ -1,0 +1,29 @@
+import numpy as np
+import pandas as pd
+
+# Generate sample data
+data = pd.DataFrame({
+    'x1': np.random.rand(10),
+    'x2': np.random.rand(10)
+})
+
+X = data.values
+
+def euclidean_distance(a, b):
+    return np.linalg.norm(a - b)
+
+clusters = [[i] for i in range(len(X))]
+
+while len(clusters) > 1:
+    min_dist = float('inf')
+    to_merge = None
+    for i in range(len(clusters)):
+        for j in range(i + 1, len(clusters)):
+            dist = euclidean_distance(X[clusters[i][0]], X[clusters[j][0]])
+            if dist < min_dist:
+                min_dist = dist
+                to_merge = (i, j)
+    new_cluster = clusters[to_merge[0]] + clusters[to_merge[1]]
+    clusters = [clusters[i] for i in range(len(clusters)) if i not in to_merge]
+    clusters.append(new_cluster)
+    print(f"Merged clusters: {to_merge[0]} and {to_merge[1]}, New clusters: {clusters}")
