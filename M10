@@ -1,0 +1,49 @@
+import numpy as np
+import pandas as pd
+
+# Generate sample data
+data = pd.DataFrame({
+    'x1': np.random.rand(20),
+    'x2': np.random.rand(20)
+})
+
+X = data.values
+epsilon = 0.2
+min_points = 3
+
+# Function to get neighbors within epsilon distance
+def get_neighbors(X, idx, epsilon):
+    return [i for i in range(len(X)) if np.linalg.norm(X[idx] - X[i]) < epsilon]
+
+# DBSCAN algorithm
+def dbscan(X, epsilon, min_points):
+    labels = np.full(len(X), -1)  # -1 for unclassified
+    cluster_id = 0
+
+    for i in range(len(X)):
+        if labels[i] != -1:
+            continue
+        
+        neighbors = get_neighbors(X, i, epsilon)
+        if len(neighbors) < min_points:
+            labels[i] = -2  # Mark as noise
+        else:
+            labels[i] = cluster_id
+            queue = neighbors
+            while queue:
+                point = queue.pop(0)
+                if labels[point] == -1:
+                    labels[point] = cluster_id
+                    point_neighbors = get_neighbors(X, point, epsilon)
+                    if len(point_neighbors) >= min_points:
+                        queue.extend(point_neighbors)
+            cluster_id += 1
+    
+    return labels
+
+# Run DBSCAN
+labels = dbscan(X, epsilon, min_points)
+print("Cluster Labels:", labels)
+
+
+
