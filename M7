@@ -1,0 +1,37 @@
+import numpy as np
+import pandas as pd
+
+# Generate sample data
+data = pd.DataFrame({
+    'x1': np.random.rand(100),
+    'x2': np.random.rand(100),
+    'y': np.random.randint(0, 2, 100)
+})
+
+def gini_impurity(y):
+    classes, counts = np.unique(y, return_counts=True)
+    prob = counts / len(y)
+    return 1 - np.sum(prob ** 2)
+
+def best_split(X, y):
+    best_gini = 1
+    best_split_val = None
+    best_column = None
+    for col in range(X.shape[1]):
+        values = np.unique(X[:, col])
+        for val in values:
+            left = y[X[:, col] < val]
+            right = y[X[:, col] >= val]
+            gini_left = gini_impurity(left)
+            gini_right = gini_impurity(right)
+            gini = (len(left) * gini_left + len(right) * gini_right) / len(y)
+            if gini < best_gini:
+                best_gini = gini
+                best_split_val = val
+                best_column = col
+    return best_column, best_split_val
+
+X = data[['x1', 'x2']].values
+y = data['y'].values
+
+print(f"Best split column: {best_split(X, y)[0]}, Value: {best_split(X, y)[1]}")
