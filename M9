@@ -1,0 +1,61 @@
+import numpy as np
+import pandas as pd
+
+# Generate sample data
+data = pd.DataFrame({
+    'x1': np.random.rand(10),
+    'x2': np.random.rand(10)
+})
+
+X = data.values
+k = 2  # Number of clusters
+
+# Initialize medoids randomly
+medoids = X[np.random.choice(len(X), k, replace=False)]
+
+# Function to calculate the total cost
+def total_cost(X, medoids):
+    cost = 0
+    for point in X:
+        distances = np.linalg.norm(medoids - point, axis=1)
+        cost += np.min(distances)
+    return cost
+
+# Function to assign each point to the nearest medoid
+def assign_points(X, medoids):
+    labels = []
+    for point in X:
+        distances = np.linalg.norm(medoids - point, axis=1)
+        labels.append(np.argmin(distances))
+    return np.array(labels)
+
+# PAM algorithm
+def pam(X, medoids, max_iter=100):
+    for _ in range(max_iter):
+        labels = assign_points(X, medoids)
+        best_medoids = medoids.copy()
+        min_cost = total_cost(X, medoids)
+
+        # Try swapping each medoid with each non-medoid point
+        for medoid_idx in range(k):
+            for i in range(len(X)):
+                if i not in np.where(labels == medoid_idx)[0]:
+                    new_medoids = medoids.copy()
+                    new_medoids[medoid_idx] = X[i]
+                    new_cost = total_cost(X, new_medoids)
+
+                    if new_cost < min_cost:
+                        best_medoids = new_medoids
+                        min_cost = new_cost
+
+        # If no improvement, stop
+        if np.array_equal(medoids, best_medoids):
+            break
+        medoids = best_medoids
+        
+    return medoids
+
+# Run PAM
+final_medoids = pam(X, medoids)
+print("Final Medoids:")
+print(final_medoids)
