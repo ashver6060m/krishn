@@ -1,0 +1,43 @@
+import numpy as np
+from sklearn_extra.cluster import KMedoids
+import matplotlib.pyplot as plt
+
+def clara(data, n_clusters, n_samples, sample_size, metric='euclidean', random_state=42):
+    best_medoids, best_cost, best_labels = None, float('inf'), None
+    np.random.seed(random_state)
+
+    for _ in range(n_samples):
+        subset_indices = np.random.choice(len(data), size=sample_size, replace=False)
+        subset = data[subset_indices]
+        
+        pam = KMedoids(n_clusters=n_clusters, method='pam', metric=metric, random_state=random_state)
+        pam.fit(subset)
+
+        cost = np.sum(np.min(np.linalg.norm(data[:, np.newaxis] - pam.cluster_centers_, axis=2), axis=1))
+        
+        if cost < best_cost:
+            best_medoids, best_cost = pam.cluster_centers_, cost
+            best_labels = np.argmin(np.linalg.norm(data[:, np.newaxis] - pam.cluster_centers_, axis=2), axis=1)
+    
+    return best_medoids, best_labels
+
+# Sample Data
+data = np.array([
+    [1, 2], [2, 3], [3, 4], [5, 8], [8, 8],
+    [1, 0], [2, 1], [6, 9], [7, 7], [4, 5]
+])
+
+# Run CLARA
+medoids, labels = clara(data, n_clusters=3, n_samples=5, sample_size=6)
+
+# Plot Clusters
+plt.scatter(data[:, 0], data[:, 1], c=labels, cmap='viridis', s=100)
+plt.scatter(medoids[:, 0], medoids[:, 1], c='red', marker='X', s=200, label='Medoids')
+plt.title("CLARA Clustering")
+plt.xlabel("Feature 1")
+plt.ylabel("Feature 2")
+plt.legend()
+plt.show()
+
+# Print Medoids
+print("Medoids:", medoids)
