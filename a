@@ -1,0 +1,64 @@
+from sklearn.metrics import accuracy_score
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import PolynomialFeatures
+{
+X_feature = PolynomialFeatures(degree=2)
+X_poly = X_feature.fit_transform(X)
+
+}
+
+from sklearn.neighbors import KNeighborsClassifier
+{
+knn = KNeighborsClassifier(n_neighbors=3)
+knn.fit()
+y_pred = knn.predict()
+}
+
+from sklearn.naive_bayes import GaussianNB
+{
+nb = GaussianNB()
+nb.fit()
+y_pred = nb.predict()
+}
+
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+{
+X = pd.get_dummies(df[[]], drop_first=True)
+id3 = DecisionTreeClassifier(criterion='entropy',random_state=42)
+id3.fit()
+y_pred = id3.predict()
+plot_tree(id3, feature_names=X.columns, class_names=['No', 'Yes'])
+}
+
+from sklearn.cluster import KMeans
+{
+kmeans = KMeans(n_clusters=3, random_state=42)
+kmeans.fit()
+df['Cluster'] = kmeans.labels_
+plt.scatter(data[:, 0], data[:, 1], c=kmeans.labels_,)
+plt.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], c='red', marker='X', label='Centroids')
+
+}
+from sklearn_extra.cluster import KMedoids
+{
+kmedoids = KMedoids(n_clusters=3, random_state=42, metric="euclidean")
+kmedoids.fit(data)
+df['Cluster'] = kmedoids.labels_
+plt.scatter(data[:, 0], data[:, 1], c=kmedoids.labels_, cmap='viridis', s=100)
+plt.scatter(kmedoids.cluster_centers_[:, 0], kmedoids.cluster_centers_[:, 1], c='red', s=200, marker='X', label='Medoids')
+}
+
+from scipy.cluster.hierarchy import dendrogram, linkage
+{
+linked = linkage(data, method='ward')
+dendrogram(linked)
+
+}
+from sklearn.cluster import DBSCAN
+{
+dbscan = DBSCAN(eps=2, min_samples=2)
+labels = dbscan.fit_predict(data)
+
+}
+
+
